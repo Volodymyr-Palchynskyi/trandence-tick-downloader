@@ -42,27 +42,26 @@
         <p class="hint" id="days-info">Weekdays only. Up to 31 days at a time.</p>
       </section>
 
-      <section class="card">
+      <section class="card" id="exchanges-card">
         <div class="row">
           <h2>Exchanges</h2>
           <span class="spacer"></span>
-          <button type="button" id="select-top3" class="secondary">Top 3</button>
+          <button type="button" id="select-none" class="secondary">Clear</button>
           <button type="button" id="select-all" class="secondary">Select all</button>
         </div>
         <table>
           <thead>
-            <tr><th></th><th>Exchange</th><th>Share of volume</th><th class="num">Price</th></tr>
+            <tr><th></th><th>Exchange</th><th>Dataset</th><th class="num">Price</th></tr>
           </thead>
           <tbody id="exchange-rows"></tbody>
           <tfoot>
             <tr><td></td><td colspan="2">Total for selected</td><td class="num" id="total">—</td></tr>
           </tfoot>
         </table>
-        <p class="hint">Share of volume measured on 22 days in September 2026; it varies by stock and day.</p>
         <p class="error" id="cost-error" hidden></p>
       </section>
 
-      <section class="card">
+      <section class="card" id="folder-card">
         <h2>Folder</h2>
         <div class="row">
           <span id="folder" class="path muted">Not chosen</span>
@@ -71,10 +70,9 @@
         </div>
       </section>
 
-      <div class="row actions">
-        <span class="muted" id="download-summary"></span>
-        <span class="spacer"></span>
-        <button type="button" id="download" disabled>Download</button>
+      <div class="actions">
+        <button type="button" id="download">Download</button>
+        <p class="error" id="download-error" role="alert" hidden></p>
       </div>
 
       <section class="card" id="files-card" hidden>

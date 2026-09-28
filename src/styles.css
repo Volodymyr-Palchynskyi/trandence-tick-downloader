@@ -198,7 +198,33 @@ input[type='checkbox'] {
 }
 
 .actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   padding: 0 0.2rem;
+}
+
+#download {
+  height: 2.6rem;
+  padding: 0 1.4rem;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions .error {
+  text-align: right;
+}
+
+.error-inline {
+  color: var(--error);
+  cursor: help;
+}
+
+/* A field or card that needs attention before downloading. */
+.invalid,
+input.invalid {
+  border-color: var(--error) !important;
+  box-shadow: 0 0 0 1px var(--error);
 }
 
 #files {

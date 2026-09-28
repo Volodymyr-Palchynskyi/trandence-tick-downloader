@@ -6,9 +6,24 @@ use chrono_tz::America::New_York;
 pub const API: &str = "https://hist.databento.com/v0";
 pub const SCHEMA: &str = "mbp-10";
 
-/// The exchanges offered, largest share of volume first. Each is a separate
-/// Databento dataset, priced and downloaded on its own.
-pub const DATASETS: [&str; 5] = ["ARCX.PILLAR", "XNAS.ITCH", "EDGX.PITCH", "MEMX.MEMOIR", "BATS.PITCH"];
+/// The exchanges offered: every lit US equities venue with full depth of book
+/// (the same list as Trandence's server). Each is a separate Databento
+/// dataset, priced and downloaded on its own.
+pub const DATASETS: [&str; 13] = [
+    "ARCX.PILLAR",
+    "XNAS.ITCH",
+    "EDGX.PITCH",
+    "MEMX.MEMOIR",
+    "BATS.PITCH",
+    "XNYS.PILLAR",
+    "EDGA.PITCH",
+    "BATY.PITCH",
+    "XBOS.ITCH",
+    "XPSX.ITCH",
+    "XASE.PILLAR",
+    "XCHI.PILLAR",
+    "EPRL.DOM",
+];
 
 pub fn parse_day(day: &str) -> Result<NaiveDate, String> {
     NaiveDate::parse_from_str(day, "%Y-%m-%d").map_err(|_| format!("Not a date: {day}"))
@@ -129,6 +144,7 @@ mod tests {
     fn file_names_match_the_portal() {
         assert_eq!(file_name("XNAS.ITCH", day("2026-09-26")), "xnas-itch-20260926.mbp-10.csv.zst");
         assert_eq!(file_name("MEMX.MEMOIR", day("2026-01-05")), "memx-memoir-20260105.mbp-10.csv.zst");
+        assert_eq!(file_name("EPRL.DOM", day("2026-01-05")), "eprl-dom-20260105.mbp-10.csv.zst");
     }
 
     #[test]
@@ -138,6 +154,8 @@ mod tests {
         assert!(check_symbol("").is_err());
         assert!(check_symbol("A&B").is_err());
         assert!(check_dataset("MEMX.MEMOIR").is_ok());
+        assert!(check_dataset("EPRL.DOM").is_ok());
+        assert!(check_dataset("IEXG.TOPS").is_err());
         assert!(check_dataset("MEMX.MEMOIRS").is_err());
     }
 

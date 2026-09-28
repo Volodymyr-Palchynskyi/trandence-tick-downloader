@@ -105,3 +105,16 @@ Lesson from that check: the import reads files when it analyses and saves them,
 not when they are dropped — deleting or moving them in between fails with
 `NotFoundError`. No need to decompress: the import takes `.csv.zst`.
 
+## Changes after the first test (2026-09-28)
+
+- All 13 exchanges of Trandence's server list, all selected by default; the
+  selection is remembered.
+- No share-of-volume column: it is a share of *trades*, while file size and
+  price follow order-book traffic, so it misled (BATS ~5% of trades, yet a
+  file the size of the "bigger" venues). The exchange's full name instead;
+  *Top 3* became *Clear*.
+- Download is always enabled; pressing it highlights what is missing. The
+  button carries the file count and total price.
+- A price error (e.g. an exchange without data for that date) shows in its
+  own row; one banner only when nothing could be priced (bad key, no network).
+

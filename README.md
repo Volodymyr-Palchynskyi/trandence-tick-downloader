@@ -32,12 +32,14 @@ The installers are not code-signed yet. On first launch:
    It is kept in your system's credential store (Windows Credential Manager or
    macOS Keychain) and sent only to Databento.
 2. **Stock and days.** A ticker and a day, or a range of weekdays (up to 31).
-3. **Exchanges.** The app asks Databento for the price of each exchange and
-   lists them. Pick them yourself, or use *Top 3* (about 80% of volume) or
-   *Select all* (about 92%).
+3. **Exchanges.** All 13 US exchanges with full depth of book, each priced by
+   Databento for your stock and days. All are selected at first; untick the
+   ones you do not want — the app remembers your choice.
 4. **Folder.** Choose where the files go; the app remembers it.
-5. **Download.** Each file shows its status and size as it arrives. Files
-   already in the folder are skipped, so nothing is bought twice.
+5. **Download.** The button shows how many files and what they cost. Anything
+   missing is highlighted when you press it. Each file shows its status and
+   size as it arrives; files already in the folder are skipped, so nothing is
+   bought twice.
 
 Each file covers the trading day's session, 04:00–20:00 New York time.
 Days the market was closed have no data and are left out.
