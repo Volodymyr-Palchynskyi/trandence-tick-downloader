@@ -1,6 +1,6 @@
 [package]
 name = "trandence-tick-downloader"
-version = "0.1.1"
+version = "0.1.2"
 description = "Download Databento MBP-10 tick data by stock and day"
 authors = ["Trandence"]
 license = "MIT"
