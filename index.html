@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trandence Tick Downloader</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Trandence Tick Downloader</h1>
+        <p class="muted">
+          Databento MBP-10 tick data by stock and day, with your own API key. Files go straight to
+          your computer, named as the Databento portal names them.
+        </p>
+      </header>
+
+      <section class="card" id="key-card">
+        <h2>Databento API key</h2>
+        <div id="key-saved" class="row" hidden>
+          <span class="ok">Key saved in this computer's credential store.</span>
+          <span class="spacer"></span>
+          <button type="button" id="key-replace" class="secondary">Replace</button>
+          <button type="button" id="key-forget" class="secondary">Forget</button>
+        </div>
+        <form id="key-form" class="row" hidden>
+          <input id="key-input" type="password" autocomplete="off" spellcheck="false" placeholder="db-…" aria-label="Databento API key" />
+          <button type="submit">Save</button>
+        </form>
+        <p class="hint">Sent only to Databento. Find it in your Databento portal under API Keys.</p>
+      </section>
+
+      <section class="card">
+        <h2>Stock and days</h2>
+        <div class="row">
+          <label>Ticker <input id="symbol" type="text" maxlength="10" spellcheck="false" placeholder="NBIS" /></label>
+          <label>From <input id="from" type="date" /></label>
+          <label>To <input id="to" type="date" /></label>
+        </div>
+        <p class="hint" id="days-info">Weekdays only. Up to 31 days at a time.</p>
+      </section>
+
+      <section class="card">
+        <div class="row">
+          <h2>Exchanges</h2>
+          <span class="spacer"></span>
+          <button type="button" id="select-top3" class="secondary">Top 3</button>
+          <button type="button" id="select-all" class="secondary">Select all</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th></th><th>Exchange</th><th>Share of volume</th><th class="num">Price</th></tr>
+          </thead>
+          <tbody id="exchange-rows"></tbody>
+          <tfoot>
+            <tr><td></td><td colspan="2">Total for selected</td><td class="num" id="total">—</td></tr>
+          </tfoot>
+        </table>
+        <p class="hint">Share of volume measured on 22 days in September 2026; it varies by stock and day.</p>
+        <p class="error" id="cost-error" hidden></p>
+      </section>
+
+      <section class="card">
+        <h2>Folder</h2>
+        <div class="row">
+          <span id="folder" class="path muted">Not chosen</span>
+          <span class="spacer"></span>
+          <button type="button" id="choose-folder" class="secondary">Choose…</button>
+        </div>
+      </section>
+
+      <div class="row actions">
+        <span class="muted" id="download-summary"></span>
+        <span class="spacer"></span>
+        <button type="button" id="download" disabled>Download</button>
+      </div>
+
+      <section class="card" id="files-card" hidden>
+        <h2>Files</h2>
+        <ul id="files"></ul>
+      </section>
+    </main>
+  </body>
+</html>

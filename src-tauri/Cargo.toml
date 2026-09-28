@@ -1,0 +1,36 @@
+[package]
+name = "trandence-tick-downloader"
+version = "0.1.0"
+description = "Download Databento MBP-10 tick data by stock and day"
+authors = ["Trandence"]
+license = "MIT"
+edition = "2021"
+
+[lib]
+# The `_lib` suffix keeps the lib name distinct from the bin name, which
+# otherwise clashes on Windows (https://github.com/rust-lang/cargo/issues/8519).
+name = "trandence_tick_downloader_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# The API key lives in the OS credential store, never in a file.
+keyring = { version = "3", features = ["windows-native", "apple-native"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
+futures-util = "0.3"
+tokio = { version = "1", features = ["fs", "io-util"] }
+chrono = { version = "0.4", default-features = false, features = ["std", "clock"] }
+chrono-tz = "0.10"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true
