@@ -86,9 +86,22 @@ HTTP plugin), files streamed to disk; key via the OS keyring.
   "< $0.01".
 - The trading-day window and the whole UTC day are identical in cost and size.
 - `MEMX.MEMOIRS` is not a dataset; the code is `MEMX.MEMOIR` (as in the
-  Trandence server's DEFAULT_DATABENTO_DATASET). Not yet re-run with the fix.
+  Trandence server's DEFAULT_DATABENTO_DATASET). With it MEMX prices and
+  downloads normally.
 - Billable size is known up front. It is most likely the uncompressed binary
   size, not the size of the zstd CSV on disk — not checked against a real
   download. v1 shows bytes downloaded, no percentage, so it does not matter yet.
 - Streaming download of a full day: about 10 minutes through the API
   (founder's experience).
+
+## End-to-end check (2026-09-28)
+
+NBIS, 2026-09-08, all five exchanges, downloaded by the app ($0.22 for the top
+three, plus MEMX and BATS). The CSV header is identical to a portal file's; the
+ARCX file decompresses to 311,768 records. Imported into trandence.com Market
+Replay as they were (1,841,570 records, ~60 MB) and played back.
+
+Lesson from that check: the import reads files when it analyses and saves them,
+not when they are dropped — deleting or moving them in between fails with
+`NotFoundError`. No need to decompress: the import takes `.csv.zst`.
+
