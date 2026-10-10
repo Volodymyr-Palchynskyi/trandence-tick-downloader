@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MSIX manifest for the Microsoft Store build. scripts/pack-msix.py fills in
+  {VERSION} (from tauri.conf.json, as a.b.c.0 — the Store needs the fourth part
+  to be 0) and packs it with the release exe and the Assets it generates.
+
+  Identity Name, Publisher and PublisherDisplayName are the values Partner
+  Center assigns to the "Trandence Tick Downloader" product (Product
+  management → Product identity); the Store rejects a package that differs.
+  The package goes to the Store unsigned: the Store signs it.
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="Trandence.TrandenceTickDownloader"
+    Publisher="CN=815B4A22-F498-46EA-800D-A6C24E503FF6"
+    Version="{VERSION}"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Trandence Tick Downloader</DisplayName>
+    <PublisherDisplayName>Trandence</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <!-- Windows 10 1809 and later, as WebView2 requires. -->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Applications>
+    <!-- A desktop (Win32) app: full trust, like any installed program. -->
+    <Application Id="App" Executable="trandence-tick-downloader.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Trandence Tick Downloader"
+        Description="Download Databento MBP-10 tick data by stock and day, with your own API key."
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!-- Prices and downloads from hist.databento.com. -->
+    <Capability Name="internetClient" />
+    <!-- A desktop app: writes downloads to the folder the user chooses and keeps
+         the API key in Windows Credential Manager. -->
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

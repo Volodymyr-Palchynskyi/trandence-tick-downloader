@@ -1,5 +1,6 @@
-# Builds installers for Windows and macOS and attaches them to a draft
-# GitHub Release. Runs when a version tag is pushed: git tag v0.1.0 && git push --tags
+# Builds installers for Windows and macOS, plus an MSIX for the Microsoft Store,
+# and attaches them to a draft GitHub Release. Runs when a version tag is
+# pushed: git tag v0.1.0 && git push --tags
 name: Release
 
 on:
@@ -44,6 +45,7 @@ jobs:
         run: cargo test --manifest-path src-tauri/Cargo.toml
 
       - uses: tauri-apps/tauri-action@v0
+        id: tauri
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -53,3 +55,21 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
+
+      # Microsoft Store package: the release exe tauri-action just built, packed
+      # as MSIX (scripts/pack-msix.py). Unsigned on purpose — the Store signs it —
+      # so it is for uploading to Partner Center, not for installing directly.
+      - name: MSIX for the Microsoft Store
+        if: matrix.platform == 'windows-latest'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m pip install --quiet pillow
+          python scripts/pack-msix.py --out msix-out
+          $file = Get-ChildItem msix-out -Filter *.msix | Select-Object -First 1
+          gh api --method POST `
+            -H "Content-Type: application/octet-stream" `
+            "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.tauri.outputs.releaseId }}/assets?name=$($file.Name)" `
+            --input $file.FullName | Out-Null
+          Write-Output "Uploaded $($file.Name)"
