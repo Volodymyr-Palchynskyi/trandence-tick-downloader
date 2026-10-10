@@ -6,8 +6,15 @@
 Stages src-tauri/target/release/trandence-tick-downloader.exe with
 msix/AppxManifest.xml (version from src-tauri/tauri.conf.json, as a.b.c.0) and
 icons made from src-tauri/icons/icon.png, then runs makeappx from the Windows
-SDK. The package is unsigned: the Store signs it. To try it locally, install it
-in Developer Mode:  Add-AppxPackage -AllowUnsigned <file>.msix
+SDK. The package is unsigned: the Store signs it.
+
+To try it locally, in Developer Mode, register the unpacked package instead:
+
+    python scripts/pack-msix.py --stage
+    Add-AppxPackage -Register src-tauri/target/msix/package/AppxManifest.xml
+
+(`Add-AppxPackage -AllowUnsigned` refuses this package: it accepts only
+publishers marked as unsigned, and ours is the Store's real publisher.)
 
 Needs Pillow.
 """
@@ -51,6 +58,7 @@ def makeappx() -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('--out', default=str(ROOT / 'src-tauri' / 'target' / 'msix'))
+    parser.add_argument('--stage', action='store_true', help='also keep the unpacked package in <out>/package, for Add-AppxPackage -Register')
     args = parser.parse_args()
 
     if not EXE.exists():
@@ -78,6 +86,12 @@ def main() -> None:
             icon.resize((size, size), Image.LANCZOS).save(assets / f'Square44x44Logo.targetsize-{size}_altform-unplated.png')
 
         subprocess.run([makeappx(), 'pack', '/o', '/d', str(stage), '/p', str(target)], check=True)
+
+        if args.stage:
+            kept = out_dir / 'package'
+            shutil.rmtree(kept, ignore_errors=True)
+            shutil.copytree(stage, kept)
+            print(f'unpacked: {kept}  ->  Add-AppxPackage -Register "{kept / "AppxManifest.xml"}"')
 
     print(f'{target}  (version {msix_version})')
 
