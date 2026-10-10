@@ -25,7 +25,7 @@ const EXCHANGES = [
 type Dataset = (typeof EXCHANGES)[number]['dataset'];
 const ALL = EXCHANGES.map((e) => e.dataset);
 
-const MAX_DAYS = 31;
+const DAY_HINT = 'One trading day: the session from 04:00 to 20:00 New York time.';
 const COST_CONCURRENCY = 6;
 const DOWNLOAD_CONCURRENCY = 2;
 const FOLDER_KEY = 'folder';
@@ -97,41 +97,35 @@ $('key-forget').addEventListener('click', async () => {
 
 // ── Stock and days ──
 
-function tradingDays(from: string, to: string): string[] {
-  const out: string[] = [];
-  const d = new Date(`${from}T00:00:00Z`);
-  const end = new Date(`${to}T00:00:00Z`);
-  while (d <= end && out.length <= MAX_DAYS) {
-    const wd = d.getUTCDay();
-    if (wd !== 0 && wd !== 6) out.push(d.toISOString().slice(0, 10));
-    d.setUTCDate(d.getUTCDate() + 1);
-  }
-  return out;
-}
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const weekdayOf = (day: string) => new Date(`${day}T00:00:00Z`).getUTCDay();
 
 interface FormProblem {
-  field: 'symbol' | 'from' | 'to';
+  field: 'symbol' | 'day';
   message: string;
 }
 
+/**
+ * One trading day — a replay is one day. `days` stays a list so prices, file
+ * names and downloads keep working per day; it holds exactly that day.
+ */
 function readForm(): { symbol: string; days: string[]; problem: FormProblem | null } {
   const symbol = $<HTMLInputElement>('symbol').value.trim().toUpperCase();
-  const from = $<HTMLInputElement>('from').value;
-  const to = $<HTMLInputElement>('to').value || from;
+  const day = $<HTMLInputElement>('day').value;
   if (!symbol) return { symbol, days: [], problem: { field: 'symbol', message: 'Enter a ticker.' } };
   if (!/^[A-Z0-9.]{1,10}$/.test(symbol)) {
     return { symbol, days: [], problem: { field: 'symbol', message: 'Ticker: letters, digits and a dot only.' } };
   }
-  if (!from) return { symbol, days: [], problem: { field: 'from', message: 'Choose a day.' } };
-  if (to < from) return { symbol, days: [], problem: { field: 'to', message: '"To" is before "From".' } };
-  const list = tradingDays(from, to);
-  if (list.length > MAX_DAYS) return { symbol, days: [], problem: { field: 'to', message: `Up to ${MAX_DAYS} days at a time.` } };
-  if (list.length === 0) return { symbol, days: [], problem: { field: 'to', message: 'No weekdays in that range.' } };
-  return { symbol, days: list, problem: null };
+  if (!day) return { symbol, days: [], problem: { field: 'day', message: 'Choose a day.' } };
+  const wd = weekdayOf(day);
+  if (wd === 0 || wd === 6) {
+    return { symbol, days: [], problem: { field: 'day', message: `${WEEKDAYS[wd]} — the market is closed. Choose a weekday.` } };
+  }
+  return { symbol, days: [day], problem: null };
 }
 
 let debounce = 0;
-for (const id of ['symbol', 'from', 'to']) {
+for (const id of ['symbol', 'day']) {
   $(id).addEventListener('input', () => {
     markValid(id);
     clearTimeout(debounce);
@@ -152,8 +146,8 @@ async function refreshCosts(): Promise<void> {
     problem && !incomplete
       ? problem.message
       : list.length
-        ? `${list.length} weekday${list.length === 1 ? '' : 's'}: ${list[0]}${list.length > 1 ? ` … ${list[list.length - 1]}` : ''}`
-        : `Weekdays only. Up to ${MAX_DAYS} days at a time.`;
+        ? `${WEEKDAYS[weekdayOf(list[0])]}, ${list[0]} — the session from 04:00 to 20:00 New York time.`
+        : DAY_HINT;
   if (problem || $('key-saved').hidden) return render();
 
   days = list;
@@ -406,10 +400,8 @@ const lastWeekday = new Date(today);
 do lastWeekday.setDate(lastWeekday.getDate() - 1);
 while (lastWeekday.getDay() === 0 || lastWeekday.getDay() === 6);
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-$<HTMLInputElement>('from').value = iso(lastWeekday);
-$<HTMLInputElement>('to').value = iso(lastWeekday);
-$<HTMLInputElement>('from').max = iso(today);
-$<HTMLInputElement>('to').max = iso(today);
+$<HTMLInputElement>('day').value = iso(lastWeekday);
+$<HTMLInputElement>('day').max = iso(today);
 
 showFolder();
 render();

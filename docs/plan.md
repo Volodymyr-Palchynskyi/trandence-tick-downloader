@@ -118,3 +118,9 @@ not when they are dropped — deleting or moving them in between fails with
 - A price error (e.g. an exchange without data for that date) shows in its
   own row; one banner only when nothing could be priced (bad key, no network).
 
+## One day at a time (2026-10-10)
+
+The day range (From / To, up to 31 weekdays) became a single Day field: a
+Market Replay replay is one day, so a range only added a way to buy more than
+meant. Weekends are refused with a reason. Prices, file names and downloads
+still work on a list of days internally; it holds that one day.

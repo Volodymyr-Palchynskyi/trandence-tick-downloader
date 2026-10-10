@@ -31,7 +31,7 @@ The installers are not code-signed yet. On first launch:
 1. **API key.** Paste your Databento API key (portal → API Keys) and save it.
    It is kept in your system's credential store (Windows Credential Manager or
    macOS Keychain) and sent only to Databento.
-2. **Stock and days.** A ticker and a day, or a range of weekdays (up to 31).
+2. **Stock and day.** A ticker and one trading day — a replay is one day.
 3. **Exchanges.** All 13 US exchanges with full depth of book, each priced by
    Databento for your stock and days. All are selected at first; untick the
    ones you do not want — the app remembers your choice.
