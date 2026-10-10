@@ -33,7 +33,7 @@ The installers are not code-signed yet. On first launch:
    macOS Keychain) and sent only to Databento.
 2. **Stock and day.** A ticker and one trading day — a replay is one day.
 3. **Exchanges.** All 13 US exchanges with full depth of book, each priced by
-   Databento for your stock and days. All are selected at first; untick the
+   Databento for your stock and day. All are selected at first; untick the
    ones you do not want — the app remembers your choice.
 4. **Folder.** Choose where the files go; the app remembers it.
 5. **Download.** The button shows how many files and what they cost. Anything
