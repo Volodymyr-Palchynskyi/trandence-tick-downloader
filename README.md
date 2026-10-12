@@ -14,17 +14,18 @@ Unofficial — not affiliated with Databento.
 
 ## Install
 
-Download the installer for your system from the
-[latest release](../../releases/latest):
+- **Windows:** get it from the
+  [Microsoft Store](https://apps.microsoft.com/detail/9N90Z0Z6NTGH) — signed by
+  Microsoft, installs with no warning and updates itself.
+- **macOS:** download the `.dmg` from the [latest release](../../releases/latest).
+  It is not code-signed yet: the first time, right-click the app in
+  Applications, choose *Open*, then *Open* again.
 
-- **Windows:** `.msi` or `-setup.exe`
-- **macOS:** `.dmg`
-
-The installers are not code-signed yet. On first launch:
-
-- **Windows** shows "Windows protected your PC" — click *More info*, then *Run anyway*.
-- **macOS** says the app cannot be opened — right-click it in Applications,
-  choose *Open*, then *Open* again.
+The [releases](../../releases/latest) also carry Windows installers (`.msi`,
+`-setup.exe`) for those who cannot use the Store. They are not code-signed:
+Windows shows "Windows protected your PC" — click *More info*, then *Run anyway*.
+The `.msix` there is the Store package, unsigned, and is not meant to be
+installed directly.
 
 ## Use
 
