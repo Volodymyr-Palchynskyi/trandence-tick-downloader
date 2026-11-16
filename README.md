@@ -47,7 +47,7 @@ Once your `.mbp-10.csv.zst` files are saved locally, you can replay the session 
 2. **Load your local files.** Select or drag and drop the downloaded `.mbp-10.csv.zst` files for your chosen ticker and trading day. The files are processed directly in your browser without uploading to external servers.
 3. **Replay & analyze.** Watch the full 10-level Order Book (Level 2), Time & Sales tape, and intraday charts move in sync. Adjust playback speed, jump to specific timestamps, or review your executed trades on the tape.
 
-![Trandence Market Replay — Order Book & Time and Sales](trandence-market-replay.png)
+![Trandence Market Replay — Order Book & Time and Sales](assets/trandence-market-replay.png)
 
 For full details on player controls, exchange coverage, and browser storage, see the **[Market Replay Documentation](https://trandence.com/help/features/market-replay/)**.
 
