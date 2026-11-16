@@ -7,12 +7,14 @@ go straight to a folder on your computer.
 
 The files are the ones the Databento portal would give you, with the same
 names (`xnas-itch-20260926.mbp-10.csv.zst`), so they import into
-[Trandence — Free Trading Journal & Level 2 Market Replay](https://trandence.com) Market Replay as they are, and work with any
+[Trandence — Free Trading Journal & Level 2 Market Replay](https://trandence.com) as they are, and work with any
 other tool that reads Databento data.
+
+![Trandence Tick Downloader UI](assets/trandence-tick-downloader-ui.png)
 
 Unofficial — not affiliated with Databento.
 
-## Install
+## How to Install
 
 - **Windows:** get it from the
   [Microsoft Store](https://apps.microsoft.com/detail/9N90Z0Z6NTGH) — signed by
@@ -29,13 +31,13 @@ installed directly.
 
 ## How to Download Databento MBP-10 Tick Data
 
-1. **API key.** Paste your Databento API key (`Portal → API Keys`) and save it[cite: 13]. It is kept securely in your system's credential store (`Windows Credential Manager` or `macOS Keychain`) and sent only to Databento[cite: 13]. *(Need a key? Follow the [Getting Market Data from Databento guide](https://trandence.com/help/features/market-replay/getting-data-from-databento/).)*
-2. **Stock and day.** Enter a US stock ticker and one trading day — a replay session covers one day[cite: 13].
-3. **Exchanges.** Review all 13 US exchanges with full depth of book, each priced by Databento for your stock and day[cite: 13]. All are selected at first; untick the ones you do not want — the app remembers your choice[cite: 13].
-4. **Folder.** Choose where the files go; the app remembers it[cite: 13].
-5. **Download.** The button shows how many files will be downloaded and their exact cost[cite: 13]. Anything missing is highlighted when you press it[cite: 13]. Each file shows its status and size as it arrives; files already in the folder are skipped, so nothing is bought twice[cite: 13].
+1. **API key.** Paste your Databento API key (`Portal → API Keys`) and save it. It is kept securely in your system's credential store (`Windows Credential Manager` or `macOS Keychain`) and sent only to Databento. *(Need a key? Follow the [Getting Market Data from Databento guide](https://trandence.com/help/features/market-replay/getting-data-from-databento/).)*
+2. **Stock and day.** Enter a US stock ticker and one trading day — a replay session covers one day.
+3. **Exchanges.** Review all 13 US exchanges with full depth of book, each priced by Databento for your stock and day. All are selected at first; untick the ones you do not want — the app remembers your choice.
+4. **Folder.** Choose where the files go; the app remembers it.
+5. **Download.** The button shows how many files will be downloaded and their exact cost. Anything missing is highlighted when you press it. Each file shows its status and size as it arrives; files already in the folder are skipped, so nothing is bought twice.
 
-Each file covers the full trading day's session, `04:00–20:00` New York time[cite: 13]. Days the market was closed have no data and are left out[cite: 13].
+Each file covers the full trading day's session, `04:00–20:00` New York time. Days the market was closed have no data and are left out.
 
 ## How to Replay Level 2 Order Book & Time and Sales for Free
 
@@ -44,6 +46,8 @@ Once your `.mbp-10.csv.zst` files are saved locally, you can replay the session 
 1. **Open Market Replay.** Launch the [Trandence web app](https://trandence.com) in your browser (or install via the [Microsoft Store](https://apps.microsoft.com/detail/9P9RSX099QW2) on Windows) and navigate to **Market Replay**.
 2. **Load your local files.** Select or drag and drop the downloaded `.mbp-10.csv.zst` files for your chosen ticker and trading day. The files are processed directly in your browser without uploading to external servers.
 3. **Replay & analyze.** Watch the full 10-level Order Book (Level 2), Time & Sales tape, and intraday charts move in sync. Adjust playback speed, jump to specific timestamps, or review your executed trades on the tape.
+
+![Trandence Market Replay — Order Book & Time and Sales](trandence-market-replay.png)
 
 For full details on player controls, exchange coverage, and browser storage, see the **[Market Replay Documentation](https://trandence.com/help/features/market-replay/)**.
 
@@ -98,8 +102,8 @@ Needs Node.js 24 and Rust (with the MSVC build tools on Windows).
 
 ```bash
 npm install
-npm run tauri dev     # run
-npm run tauri build   # installer in src-tauri/target/release/bundle
+npm run tauri dev      # run
+npm run tauri build    # installer in src-tauri/target/release/bundle
 cargo test --manifest-path src-tauri/Cargo.toml
 ```
 
